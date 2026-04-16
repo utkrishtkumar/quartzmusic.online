@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quartz Music Player Hi-Res</title>
+    <meta name="description" content="Bit-perfect hi-res audio player for Android. USB DAC, Bluetooth, and Phone Output with studio-grade 8-band equalizer. Zero data collection.">
+    <link rel="canonical" href="https://quartzmusic.online/">
+    <meta property="og:title" content="Quartz Music Player Hi-Res">
+    <meta property="og:description" content="Bit-perfect hi-res audio player for Android. USB DAC, Bluetooth, and studio-grade equalizer.">
+    <meta property="og:image" content="https://quartzmusic.online/icon.png">
+    <meta property="og:url" content="https://quartzmusic.online/">
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blue-dark: #0a3d91;
+            --blue-mid: #0D47A1;
+            --blue-light: #2196F3;
+            --cyan: #00e5ff;
+            --white: #f0faff;
+            --text: #e8f4fd;
+            --text-muted: #90caf9;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #060e1f 0%, #0a1628 50%, #0d1f3c 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(10, 22, 40, 0.75);
+            border-bottom: 1px solid rgba(33, 150, 243, 0.15);
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 28px;
+        }
+        .nav-brand {
+            display: flex; align-items: center; gap: 12px;
+            text-decoration: none; color: var(--white);
+        }
+        .nav-brand img { width: 36px; height: 36px; border-radius: 8px; }
+        .nav-brand span { font-weight: 700; font-size: 16px; letter-spacing: -0.3px; }
+        .nav-links { display: flex; gap: 28px; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none; font-size: 14px;
+            font-weight: 500; transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--cyan); }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 120px 28px 80px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse 600px 400px at 50% 40%, rgba(33,150,243,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 300px 300px at 50% 45%, rgba(0,229,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 680px; }
+        .hero-icon {
+            width: 160px; height: 160px; border-radius: 36px;
+            margin: 0 auto 40px;
+            box-shadow:
+                0 8px 40px rgba(0,229,255,0.15),
+                0 2px 16px rgba(33,150,243,0.2);
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800; letter-spacing: -1px;
+            line-height: 1.1; margin-bottom: 18px;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--blue-light) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 18px; color: var(--text-muted);
+            line-height: 1.65; margin-bottom: 36px; max-width: 520px; margin-inline: auto;
+        }
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, var(--blue-mid), var(--blue-light));
+            color: #fff; font-weight: 600; font-size: 15px;
+            padding: 14px 32px; border-radius: 12px; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(33,150,243,0.35);
+        }
+        .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(33,150,243,0.5); }
+        .hero-cta svg { width: 20px; height: 20px; }
+
+        /* --- FEATURES --- */
+        .features {
+            max-width: 1100px; margin: 0 auto;
+            padding: 40px 28px 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(33,150,243,0.1);
+            border-radius: 16px; padding: 32px 28px;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(0,229,255,0.25);
+            background: rgba(255,255,255,0.05);
+        }
+        .feature-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(33,150,243,0.12); margin-bottom: 18px;
+            font-size: 20px;
+        }
+        .feature-card h3 {
+            font-size: 17px; font-weight: 700; margin-bottom: 8px;
+            color: var(--white);
+        }
+        .feature-card p {
+            font-size: 14px; color: var(--text-muted); line-height: 1.6;
+        }
+
+        /* --- PRIVACY BANNER --- */
+        .privacy-banner {
+            max-width: 800px; margin: 0 auto 80px;
+            padding: 36px 40px; text-align: center;
+            background: rgba(0,229,255,0.04);
+            border: 1px solid rgba(0,229,255,0.12);
+            border-radius: 20px;
+        }
+        .privacy-banner h2 {
+            font-size: 22px; margin-bottom: 12px; color: var(--white);
+        }
+        .privacy-banner p {
+            font-size: 15px; color: var(--text-muted); line-height: 1.65;
+            max-width: 600px; margin: 0 auto 20px;
+        }
+        .privacy-banner a {
+            color: var(--cyan); font-weight: 600; text-decoration: none;
+            font-size: 14px;
+        }
+        .privacy-banner a:hover { text-decoration: underline; }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid rgba(33,150,243,0.1);
+            padding: 32px 28px; text-align: center;
+        }
+        footer p { font-size: 13px; color: rgba(144,202,249,0.5); }
+        footer a { color: rgba(144,202,249,0.6); text-decoration: none; }
+        footer a:hover { color: var(--cyan); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-brand">
+                <img src="icon.png" alt="Quartz">
+                <span>Quartz Music Player</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="privacy-policy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <img src="icon.png" alt="Quartz Music Player" class="hero-icon">
+            <h1><span class="gradient">Bit-Perfect</span> Hi-Res Audio</h1>
+            <p>Studio-grade music player for Android with USB DAC support, 8-band graphic equalizer, and true bit-perfect output. Your music, uncompromised.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.kenshilabs.quartz" class="hero-cta">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.807 1.626a1 1 0 0 1 0 1.732l-2.807 1.626L15.206 12l2.492-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+                Get it on Google Play
+            </a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="feature-card">
+            <div class="feature-icon">&#127911;</div>
+            <h3>USB DAC Output</h3>
+            <p>Direct hardware access to USB DACs for true bit-perfect audio streaming, bypassing the Android audio mixer entirely.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#127908;</div>
+            <h3>Hi-Res Audio</h3>
+            <p>Native support for FLAC, WAV, DSD, ALAC, and all major lossless formats at up to 32-bit/768kHz resolution.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#127932;</div>
+            <h3>8-Band Graphic EQ</h3>
+            <p>Studio-style equalizer with customizable presets. Fine-tune every frequency band to match your headphones and preferences.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128268;</div>
+            <h3>Bluetooth Audio</h3>
+            <p>Seamless Bluetooth connectivity with automatic play/pause on connect and disconnect events.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128274;</div>
+            <h3>Zero Data Collection</h3>
+            <p>No analytics, no trackers, no telemetry. Your listening habits and personal data stay on your device — always.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#9889;</div>
+            <h3>Native Performance</h3>
+            <p>C++ audio engine with direct HAL access for minimal latency and maximum fidelity. No resampling, no compromise.</p>
+        </div>
+    </section>
+
+    <section class="privacy-banner">
+        <h2>Your Privacy, Respected</h2>
+        <p>Quartz Music Player does not collect, store, or transmit any personal data. No analytics frameworks, no tracking SDKs, no exceptions. Your music stays yours.</p>
+        <a href="privacy-policy.html">Read our full Privacy Policy &rarr;</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 KenshiLabs &middot; <a href="privacy-policy.html">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>
