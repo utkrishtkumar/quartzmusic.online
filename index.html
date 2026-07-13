@@ -153,6 +153,9 @@
             font-size: 14px;
         }
         .privacy-banner a:hover { text-decoration: underline; }
+        .privacy-links {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 24px;
+        }
 
         /* --- FOOTER --- */
         footer {
@@ -221,11 +224,14 @@
     <section class="privacy-banner">
         <h2>Your Privacy, Respected</h2>
         <p>Quartz Music Player does not collect, store, or transmit any personal data. No analytics frameworks, no tracking SDKs, no exceptions. Your music stays yours.</p>
-        <a href="privacy-policy.html">Read our full Privacy Policy &rarr;</a>
+        <div class="privacy-links">
+            <a href="privacy-policy.html">Android privacy policy &rarr;</a>
+            <a href="ios-privacy-policy.html">iPhone &amp; iPad privacy policy &rarr;</a>
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 KenshiLabs &middot; <a href="privacy-policy.html">Quartz Privacy</a> &middot; <a href="bootable-usb-maker-privacy-policy.html">Bootable USB Maker Privacy</a> &middot; <a href="file-transfer-link-privacy-policy.html">File Transfer Link Privacy</a></p>
+        <p>&copy; 2026 KenshiLabs &middot; <a href="privacy-policy.html">Quartz Android Privacy</a> &middot; <a href="ios-privacy-policy.html">Quartz iOS Privacy</a> &middot; <a href="bootable-usb-maker-privacy-policy.html">Bootable USB Maker Privacy</a> &middot; <a href="file-transfer-link-privacy-policy.html">File Transfer Link Privacy</a></p>
     </footer>
 
 </body>
